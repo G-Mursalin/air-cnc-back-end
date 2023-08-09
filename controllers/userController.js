@@ -5,6 +5,14 @@ const { catchAsync } = require("../utils/catchAsync");
 
 // Creating A User
 const postAUser = catchAsync(async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (user) {
+    return res.status(201).send({
+      status: "user is already in database",
+    });
+  }
+
   const newUser = await User.create({ email: req.body.email });
   res.status(201).send({
     status: "success",
