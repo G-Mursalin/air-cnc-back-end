@@ -20,7 +20,6 @@ const getAllRooms = catchAsync(async (req, res) => {
 // Get A Rooms
 const getARoom = catchAsync(async (req, res) => {
   const { id } = req.params;
-  console.log(id);
 
   const room = await Room.findById(id);
   res.status(201).send({
