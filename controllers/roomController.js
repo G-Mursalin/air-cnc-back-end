@@ -1,6 +1,7 @@
 const Room = require("../models/roomModel");
 const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
+const mongoose = require("mongoose");
 
 // Creating A Room
 const postARoom = catchAsync(async (req, res) => {
@@ -29,4 +30,20 @@ const getARoom = catchAsync(async (req, res) => {
   });
 });
 
-module.exports = { postARoom, getAllRooms, getARoom };
+// Update a Room Booking Status
+const roomBookingStatus = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  const room = await Room.findByIdAndUpdate({ _id: id }, { booked: status });
+
+  if (!room) {
+    return res.status(200).send({ status: "Failed to Find The Room!" });
+  }
+
+  res.status(200).send({
+    status: "successfully updated room booking status",
+  });
+});
+
+module.exports = { postARoom, getAllRooms, getARoom, roomBookingStatus };

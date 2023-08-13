@@ -18,6 +18,7 @@ const roomSchema = new mongoose.Schema({
     image: { type: String },
     email: { type: String, required: true },
   },
+  booked: { type: Boolean, enum: [true, false], default: false },
 });
 
 // Model
