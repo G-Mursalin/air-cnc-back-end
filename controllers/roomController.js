@@ -1,4 +1,5 @@
 const Room = require("../models/roomModel");
+const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
 
 // Creating A Room
