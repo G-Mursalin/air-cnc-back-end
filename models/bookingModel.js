@@ -13,6 +13,8 @@ const bookingSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   from: { type: Date, required: true },
   to: { type: Date, required: true },
+  roomId: { type: String, required: true },
+  image: { type: String, required: true },
 });
 
 // Model
