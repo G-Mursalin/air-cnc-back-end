@@ -22,7 +22,7 @@ const getAllBookings = catchAsync(async (req, res) => {
   });
 });
 
-// Delete A booking via is
+// Delete A booking via id
 const deleteBooking = catchAsync(async (req, res) => {
   const booking = await Booking.findByIdAndDelete(req.params.id);
   if (!booking) {

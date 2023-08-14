@@ -13,7 +13,14 @@ const postARoom = catchAsync(async (req, res) => {
 
 // Get All Rooms
 const getAllRooms = catchAsync(async (req, res) => {
-  const rooms = await Room.find();
+  const { email } = req.query;
+  let rooms;
+  if (email) {
+    rooms = await Room.find({ "host.email": email }).sort({ _id: -1 });
+  } else {
+    rooms = await Room.find({ booked: false }).sort({ _id: -1 });
+  }
+
   res.status(201).send({
     status: "success",
     data: { rooms },
@@ -46,4 +53,19 @@ const roomBookingStatus = catchAsync(async (req, res) => {
   });
 });
 
-module.exports = { postARoom, getAllRooms, getARoom, roomBookingStatus };
+// Delete A Room via iD
+const deleteRoom = catchAsync(async (req, res) => {
+  const room = await Room.findByIdAndDelete(req.params.id);
+  if (!room) {
+    return next(new AppError("No room found with that ID", 404));
+  }
+  res.status(201).send({ status: "Room Deleted!", data: null });
+});
+
+module.exports = {
+  postARoom,
+  getAllRooms,
+  getARoom,
+  roomBookingStatus,
+  deleteRoom,
+};
