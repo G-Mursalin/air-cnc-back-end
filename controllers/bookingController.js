@@ -10,7 +10,8 @@ const postABooking = catchAsync(async (req, res) => {
   });
 });
 
-const getAllBookings = catchAsync(async (req, res) => {
+// Get Bookings For Guest
+const getAllGuestBookings = catchAsync(async (req, res) => {
   const { email } = req.query;
 
   const bookings = await Booking.find({ "guest.email": email });
@@ -31,4 +32,22 @@ const deleteBooking = catchAsync(async (req, res) => {
   res.status(201).send({ status: "Booking Canceled!", data: null });
 });
 
-module.exports = { postABooking, getAllBookings, deleteBooking };
+// Get Bookings For Host
+const getAllHostBookings = catchAsync(async (req, res) => {
+  const { email } = req.query;
+
+  const bookings = await Booking.find({ host: email });
+
+  res.status(200).send({
+    status: "success",
+    results: bookings.length,
+    data: { bookings },
+  });
+});
+
+module.exports = {
+  postABooking,
+  getAllGuestBookings,
+  deleteBooking,
+  getAllHostBookings,
+};
