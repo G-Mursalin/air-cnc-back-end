@@ -6,20 +6,27 @@ const mongoose = require("mongoose");
 // Creating A Room
 const postARoom = catchAsync(async (req, res) => {
   const newRoom = await Room.create(req.body);
+
   res.status(201).send({
-    status: "Successfully saved to database",
+    message: "Successfully saved to database",
   });
 });
 
 // Get All Rooms
 const getAllRooms = catchAsync(async (req, res) => {
+  const rooms = await Room.find({ booked: false }).sort({ _id: -1 });
+
+  res.status(201).send({
+    status: "success",
+    data: { rooms },
+  });
+});
+
+// Get All Rooms
+const getAllListingsRooms = catchAsync(async (req, res) => {
   const { email } = req.query;
-  let rooms;
-  if (email) {
-    rooms = await Room.find({ "host.email": email }).sort({ _id: -1 });
-  } else {
-    rooms = await Room.find({ booked: false }).sort({ _id: -1 });
-  }
+
+  const rooms = await Room.find({ "host.email": email }).sort({ _id: -1 });
 
   res.status(201).send({
     status: "success",
@@ -45,11 +52,11 @@ const roomBookingStatus = catchAsync(async (req, res) => {
   const room = await Room.findByIdAndUpdate({ _id: id }, { booked: status });
 
   if (!room) {
-    return res.status(200).send({ status: "Failed to Find The Room!" });
+    return next(new AppError("Failed to Find The Room!", 404));
   }
 
   res.status(200).send({
-    status: "successfully updated room booking status",
+    message: "successfully updated room booking status",
   });
 });
 
@@ -59,12 +66,13 @@ const deleteRoom = catchAsync(async (req, res) => {
   if (!room) {
     return next(new AppError("No room found with that ID", 404));
   }
-  res.status(201).send({ status: "Room Deleted!", data: null });
+  res.status(201).send({ message: "Room Deleted!", data: null });
 });
 
 module.exports = {
   postARoom,
   getAllRooms,
+  getAllListingsRooms,
   getARoom,
   roomBookingStatus,
   deleteRoom,

@@ -6,7 +6,7 @@ const { catchAsync } = require("../utils/catchAsync");
 const postABooking = catchAsync(async (req, res) => {
   const newBooking = await Booking.create(req.body);
   res.status(201).send({
-    status: "Successfully Room Booked!",
+    message: "Successfully Room Booked!",
   });
 });
 
@@ -29,7 +29,7 @@ const deleteBooking = catchAsync(async (req, res) => {
   if (!booking) {
     return next(new AppError("No booking found with that ID", 404));
   }
-  res.status(201).send({ status: "Booking Canceled!", data: null });
+  res.status(201).send({ message: "Booking Canceled!", data: null });
 });
 
 // Get Bookings For Host

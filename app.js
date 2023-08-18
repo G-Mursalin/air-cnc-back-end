@@ -8,8 +8,9 @@ const roomRoute = require("./routes/roomRoute");
 const bookingRoute = require("./routes/bookingRoute");
 
 //Middleware
-app.use(express.json());
+
 app.use(cors());
+app.use(express.json());
 
 //Routs
 app.use("/api/v1/users", userRoute);
