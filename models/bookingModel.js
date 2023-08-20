@@ -15,6 +15,8 @@ const bookingSchema = new mongoose.Schema({
   to: { type: Date, required: true },
   roomId: { type: String, required: true },
   image: { type: String, required: true },
+  transactionId: { type: String, required: true },
+  date: { type: Date },
 });
 
 // Model

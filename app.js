@@ -6,6 +6,7 @@ const { globalErrorController } = require("./controllers/errorController");
 const userRoute = require("./routes/userRoute");
 const roomRoute = require("./routes/roomRoute");
 const bookingRoute = require("./routes/bookingRoute");
+const paymentRoute = require("./routes/paymentRoute");
 
 //Middleware
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/rooms", roomRoute);
 app.use("/api/v1/bookings", bookingRoute);
+app.use("/api/v1/payment", paymentRoute);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't not fine ${req.originalUrl} on this server`, 404));
