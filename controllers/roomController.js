@@ -69,6 +69,18 @@ const deleteRoom = catchAsync(async (req, res) => {
   res.status(201).send({ message: "Room Deleted!", data: null });
 });
 
+// Update A Room Information
+const updateARoom = catchAsync(async (req, res, next) => {
+  const room = await Room.findByIdAndUpdate(req.params.id, req.body.data, {
+    new: true,
+    runValidators: true,
+  });
+  if (!room) {
+    return next(new AppError("No tour found with that ID", 404));
+  }
+  res.status(200).send({ message: "successfully updated" });
+});
+
 module.exports = {
   postARoom,
   getAllRooms,
@@ -76,4 +88,5 @@ module.exports = {
   getARoom,
   roomBookingStatus,
   deleteRoom,
+  updateARoom,
 };
